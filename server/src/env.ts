@@ -13,6 +13,7 @@ export const env = createEnv({
     DB_PASSWORD: z.string(),
     DB_NAME: z.string(),
     SERVER_PORT: z.coerce.number(),
+    JWT_SECRET: z.string(),
   },
   runtimeEnv: process.env,
 });

@@ -1,11 +1,16 @@
 {
-    "extends": "@tsconfig/node-lts/tsconfig.json",
+    // "extends": "@tsconfig/node-lts/tsconfig.json",
     "compilerOptions": {
         "outDir": "dist",
         "module": "NodeNext",
         "target": "ES2022",
         "noImplicitAny": true,
+        "strictNullChecks": true,
+        "strictFunctionTypes": false,
     },
-    "include": ["src"],
+    "ts-node": {
+        "files": true
+    },
+    "include": ["**/*.ts", "**/*.d.ts"],
     "exclude": ["node_modules"]
 }
