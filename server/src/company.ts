@@ -2,11 +2,11 @@ import { NextFunction, Response } from "express";
 import bcrypt from 'bcrypt';
 import { eq } from 'drizzle-orm';
 
-import { CompanyLoginRequest, CompanyRegisterRequest } from "./types/company";
+import { CompanyLoginRequest, CompanyRegisterRequest, CreateProjectRequest } from "./types/company";
 import { saltRounds, catchAndLogError, Role } from "./utils";
 import { LogModule, Logger } from "./logging";
 import { db } from "./db/connection";
-import { company, companyAccount } from "./db/schema/company";
+import { company, companyAccount, project } from "./db/schema/company";
 import { StatusCodes } from "http-status-codes";
 import { Jwt } from "./jwt";
 
@@ -42,7 +42,8 @@ export const companyRegister = async (req: CompanyRegisterRequest, res: Response
         .values({
           email: email,
           hashedPassword: hashed,
-          companyId: insertedCompany[0].id })
+          companyId: insertedCompany[0].id
+        })
 
       // TODO (matt): send confirmation email to company
 
@@ -54,6 +55,7 @@ export const companyRegister = async (req: CompanyRegisterRequest, res: Response
     next,
   );
 }
+
 export const companyLogin = async (req: CompanyLoginRequest, res: Response, next: NextFunction) => {
   await catchAndLogError(
     res,
@@ -85,6 +87,35 @@ export const companyLogin = async (req: CompanyLoginRequest, res: Response, next
       }
 
       return { status: StatusCodes.INTERNAL_SERVER_ERROR, msg: undefined };
+    },
+    () => ({ status: StatusCodes.BAD_REQUEST, msg: undefined }),
+    next,
+  );
+}
+
+export const createProject = async(req: CreateProjectRequest, res: Response, next: NextFunction) => {
+  await catchAndLogError(
+    res,
+    async () => {
+      const token = req.token;
+      const accountID = token.id;
+      const { title, description, expiry } = req.body;
+
+      Logger.Info(LM, `Company with ID=${accountID} attempting to create a new project`);
+
+      const expiryDate = new Date(expiry);
+      const insertedProject = await db
+        .insert(project).values({
+          title: title,
+          description: description,
+          expiry: expiryDate,
+          companyId: parseInt(accountID)})
+        .returning({ projectId: project.id });
+
+      const projectId = insertedProject[0].projectId;
+      Logger.Info(LM, `Successfully created new project with ID=${projectId} for company with ID=${accountID}`);
+
+      return { status: StatusCodes.OK, msg: { token }};
     },
     () => ({ status: StatusCodes.BAD_REQUEST, msg: undefined }),
     next,

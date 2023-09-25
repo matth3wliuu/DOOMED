@@ -25,19 +25,27 @@ const authorise = (req: AuthorisationRequest, res: Response, next: NextFunction,
   const accountID = req.id;
 
   try {
-    const header = req.header('Authorization');
-    if (!header) {
+    const jwtString = req.header('Authorization');
+    if (!jwtString) {
       Logger.Error(LM, `Missing Authorization header from user with ACCOUNT_ID=${accountID}`);
       res.sendStatus(StatusCodes.FORBIDDEN);
+      throw Error('Missing JWT token from request header');
     }
 
-    const jwt = Jwt.decode(header as string);
+    if (!Jwt.verify(jwtString)) {
+      Logger.Error(LM, `Failed to verify JWT token from USER with ACCOUNT_ID=${accountID}`);
+      throw new Error('Invalid JWT token');
+    }
+
+    const jwt = Jwt.decode(jwtString);
+
     if (jwt.role !== role) {
       Logger.Error(LM, `User with ACCOUNT_ID attempted to authorise with incorrect role`);
       throw new Error('Incorrect role');
     }
 
-    req.jwtString = Jwt.sign(accountID, role);
+    // give user back a new token with a refreshed expiry
+    req.token = Jwt.decode(Jwt.sign(accountID, role));
 
     next();
   }

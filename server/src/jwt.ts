@@ -23,7 +23,11 @@ export class Jwt {
     return jwt.sign(payload, Jwt.secret, { expiresIn: Jwt.duration });
   }
 
-  public static decode(token: string) {
-    return jwt.decode(token) as Token;
+  public static decode(jwtString: string) {
+    return jwt.decode(jwtString) as Token;
+  }
+
+  public static verify(jwtString: string) {
+    return jwt.verify(jwtString, Jwt.secret);
   }
 }

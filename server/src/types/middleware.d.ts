@@ -1,5 +1,5 @@
 
 import type { Request } from "express";
-import { AccountID, JwtString } from "./common";
+import { AccountID, JwtToken } from "./common";
 
-export interface AuthorisationRequest extends Request, AccountID, JwtString {}
+export interface AuthorisationRequest extends Request, AccountID, JwtToken {}
