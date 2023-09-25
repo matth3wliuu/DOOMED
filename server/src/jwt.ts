@@ -3,8 +3,8 @@ import { Role } from './utils';
 import jwt from 'jsonwebtoken';
 
 export interface Token {
-  id: string,
-  role: Role,
+  id: string;
+  role: Role;
   lastRequestTimestemp: number;
 }
 

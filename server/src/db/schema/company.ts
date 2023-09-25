@@ -2,7 +2,9 @@ import { integer, pgTable, serial, text, varchar, date } from 'drizzle-orm/pg-co
 
 export const project = pgTable('project', {
   id: serial('id').primaryKey(),
-  companyId: integer('company_id').references(() => company.id).notNull(),
+  companyId: integer('company_id')
+    .references(() => company.id)
+    .notNull(),
   title: varchar('title', { length: 50 }).notNull(),
   description: text('description').notNull(),
   expiry: date('expiry', { mode: 'date' }).notNull(),

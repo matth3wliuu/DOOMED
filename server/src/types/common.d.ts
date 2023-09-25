@@ -1,4 +1,4 @@
-import { Token } from "../jwt";
+import { Token } from '../jwt';
 
 export interface AccountID {
   id: string;

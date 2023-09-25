@@ -13,23 +13,17 @@ app.use(express.json());
 
 const port = env.SERVER_PORT;
 
-app.post(
-  '/professional/register',
-  (req, res, next) => {
-    void (async () => {
-      await companyRegister(req, res, next);
-    }) ();
-  }
-);
+app.post('/professional/register', (req, res, next) => {
+  void (async () => {
+    await companyRegister(req, res, next);
+  })();
+});
 
-app.post(
-  '/professional/login',
-  (req, res, next) => {
-    void (async () => {
-      await companyLogin(req, res, next);
-    }) ();
-  }
-);
+app.post('/professional/login', (req, res, next) => {
+  void (async () => {
+    await companyLogin(req, res, next);
+  })();
+});
 
 /* Demo route
   1) Using the `authoriseCompany` middleware ensures `companyLogin` is called if
@@ -44,9 +38,9 @@ app.get(
   (req: CompanyLoginRequest, res, next) => {
     void (async () => {
       await companyLogin(req, res, next);
-    }) ();
-  }
-)
+    })();
+  },
+);
 
 app.listen(port, () => {
   Logger.Info(LM, `Server is running on PORT=${port}`);

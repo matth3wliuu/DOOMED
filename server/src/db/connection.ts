@@ -7,7 +7,7 @@ const client = postgres({
   port: env.DB_PORT,
   database: env.DB_NAME,
   username: env.DB_USER,
-  password: env.DB_PASSWORD
+  password: env.DB_PASSWORD,
 });
 
 export const db = drizzle(client);
