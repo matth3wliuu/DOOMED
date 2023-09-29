@@ -1,25 +1,18 @@
-import { integer, pgTable, serial, text, varchar, date } from 'drizzle-orm/pg-core';
+import { pgTable, serial, text, varchar, date, real } from 'drizzle-orm/pg-core';
 
-export const project = pgTable('project', {
+export const companyAccounts = pgTable('company_accounts', {
   id: serial('id').primaryKey(),
-  companyId: integer('company_id')
-    .references(() => company.id)
-    .notNull(),
-  title: varchar('title', { length: 50 }).notNull(),
-  description: text('description').notNull(),
-  expiry: date('expiry', { mode: 'date' }).notNull(),
-});
-
-export const companyAccount = pgTable('company_account', {
-  id: serial('id').primaryKey(),
+  companyId: serial('company_id').references(() => companies.id),
   email: varchar('username', { length: 256 }).notNull(),
-  companyId: integer('company_id').references(() => company.id),
   hashedPassword: text('password').notNull(),
+  createdAt: date('created_at', { mode: 'date' }).default(new Date()),
 });
 
-export const company = pgTable('company', {
+// TODO (matt): setup AWS for logo upload
+export const companies = pgTable('companies', {
   id: serial('id').primaryKey(),
   name: varchar('name', { length: 100 }),
   location: varchar('location', { length: 255 }),
   description: text('description'),
+  rating: real('rating').default(0),
 });

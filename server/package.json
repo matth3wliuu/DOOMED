@@ -5,11 +5,13 @@
   "scripts": {
     "build": "tsc --incremental",
     "start": "npm run build && node ./dist/index.js",
-    "dev": "npm run generate-migration && npm run migrate && nodemon src/index.ts",
+    "dev": "npm run drizzle:push && nodemon src/index.ts",
     "lint": "eslint './src/**/*.ts' --fix",
     "format": "prettier --config .prettierrc.json 'src/**/*.ts' --write",
-    "generate-migration": "npx drizzle-kit generate:pg --out src/db/migrations --schema=./src/db/schema",
-    "migrate": "ts-node src/db/migrate"
+    "drizzle:push": "npx drizzle-kit push:pg --config=src/db/drizzle.config.ts",
+    "drizzle:drop": "npx drizzle-kit drop",
+    "drizzle:generate-migration": "npx drizzle-kit generate:pg --out src/db/migrations --schema=./src/db/schema",
+    "drizzle:migrate": "ts-node src/db/migrate"
   },
   "license": "MIT",
   "devDependencies": {

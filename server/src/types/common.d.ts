@@ -7,3 +7,14 @@ export interface AccountID {
 export interface JwtToken {
   token: Token;
 }
+
+export enum ProfessionalAvailability {
+  Available = 0,
+  Unavailable
+}
+
+export enum ProjectWorkMode {
+  Hybrid = 0,
+  Onsite,
+  Online,
+}

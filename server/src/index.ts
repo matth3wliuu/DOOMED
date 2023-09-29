@@ -5,6 +5,7 @@ import { companyLogin, companyRegister } from './company';
 import { LogModule, Logger } from './logging';
 import { authoriseCompany, devRouteGuard as devOnlyGuard } from './middlware';
 import { CompanyLoginRequest } from './types/company';
+import { seedDB } from './db/seed';
 
 const LM = new LogModule('INDEX');
 
@@ -44,4 +45,9 @@ app.get(
 
 app.listen(port, () => {
   Logger.Info(LM, `Server is running on PORT=${port}`);
+  void (async () => {
+    if (env.NODE_ENV === 'development') {
+      await seedDB();
+    }
+  }) ();
 });

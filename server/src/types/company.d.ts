@@ -1,5 +1,5 @@
 import type { Request } from 'express';
-import type { JwtToken } from './common';
+import type { JwtToken, ProjectWorkMode } from './common';
 
 interface CompanyCredentials {
   email: string;
@@ -9,7 +9,12 @@ interface CompanyCredentials {
 interface ProjectInfo {
   title: string;
   description: string;
-  expiry: number;
+  capacity: number,
+  roles: string,
+  pay: number,
+  workMode: ProjectWorkMode,
+  start: number;
+  end: number;
 }
 
 export type CompanyRegisterRequest = Request<Record<string, never>, never, CompanyCredentials>;
