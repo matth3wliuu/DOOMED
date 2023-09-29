@@ -31,7 +31,6 @@
   "dependencies": {
     "@t3-oss/env-core": "^0.6.1",
     "@types/cors": "^2.8.14",
-    "@types/http-status-codes": "^1.2.0",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
