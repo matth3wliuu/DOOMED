@@ -1,16 +1,26 @@
-import { integer, pgTable, serial, text, varchar, date, customType, real, primaryKey } from 'drizzle-orm/pg-core';
+import {
+  integer,
+  pgTable,
+  serial,
+  text,
+  varchar,
+  date,
+  customType,
+  real,
+  primaryKey,
+} from 'drizzle-orm/pg-core';
 
 import { companies } from './company';
 import { professionals } from './professional';
 import { ProjectWorkMode } from '../../types/common';
 
-const workMode = customType<{ data: ProjectWorkMode, notNull: false, default: false}>({
+const workMode = customType<{ data: ProjectWorkMode; notNull: false; default: false }>({
   dataType() {
     return 'integer';
   },
   toDriver(value: ProjectWorkMode) {
     return value.valueOf();
-  }
+  },
 });
 
 export const projects = pgTable('projects', {
@@ -29,11 +39,15 @@ export const projects = pgTable('projects', {
   createdAt: date('created_at', { mode: 'date' }).default(new Date()),
 });
 
-export const projectContributors = pgTable('project_contributors', {
-  projectId: serial('project_id').references(() => projects.id),
-  professionalId: serial('professional_id').references(() => professionals.id),
-}, (table) => {
-  return {
-    pk: primaryKey(table.projectId, table.professionalId),
-  }
-});
+export const projectContributors = pgTable(
+  'project_contributors',
+  {
+    projectId: serial('project_id').references(() => projects.id),
+    professionalId: serial('professional_id').references(() => professionals.id),
+  },
+  (table) => {
+    return {
+      pk: primaryKey(table.projectId, table.professionalId),
+    };
+  },
+);

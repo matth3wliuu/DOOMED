@@ -9,10 +9,10 @@ interface CompanyCredentials {
 interface ProjectInfo {
   title: string;
   description: string;
-  capacity: number,
-  roles: string,
-  pay: number,
-  workMode: ProjectWorkMode,
+  capacity: number;
+  roles: string;
+  pay: number;
+  workMode: ProjectWorkMode;
   start: number;
   end: number;
 }

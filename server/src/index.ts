@@ -49,5 +49,5 @@ app.listen(port, () => {
     if (env.NODE_ENV === 'development') {
       await seedDB();
     }
-  }) ();
+  })();
 });

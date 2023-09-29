@@ -1,4 +1,3 @@
-
 import { LogModule, Logger } from '../logging';
 import { db } from './connection';
 import { adminAccounts } from './schema/admin';
@@ -16,4 +15,4 @@ export const seedDB = async () => {
   await db.insert(adminAccounts).values(admin);
 
   Logger.Info(LM, 'Database has been seeded');
-}
+};

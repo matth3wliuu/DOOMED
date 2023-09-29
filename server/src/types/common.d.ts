@@ -10,7 +10,7 @@ export interface JwtToken {
 
 export enum ProfessionalAvailability {
   Available = 0,
-  Unavailable
+  Unavailable,
 }
 
 export enum ProjectWorkMode {

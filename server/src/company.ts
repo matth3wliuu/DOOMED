@@ -25,7 +25,10 @@ export const companyRegister = async (
 
       Logger.Info(LM, `Attempting to register a company with EMAIL=${email}`);
 
-      const search = await db.select().from(companyAccounts).where(eq(companyAccounts.email, email));
+      const search = await db
+        .select()
+        .from(companyAccounts)
+        .where(eq(companyAccounts.email, email));
 
       if (search.length != 0) {
         Logger.Error(LM, `Company with EMAIL=${email} already exists`);
@@ -61,7 +64,10 @@ export const companyLogin = async (req: CompanyLoginRequest, res: Response, next
 
       Logger.Info(LM, `Company with EMAIL=${email} attempting to login`);
 
-      const search = await db.select().from(companyAccounts).where(eq(companyAccounts.email, email));
+      const search = await db
+        .select()
+        .from(companyAccounts)
+        .where(eq(companyAccounts.email, email));
 
       if (search.length == 0) {
         Logger.Error(LM, `Company with EMAIL=${email} does not exists`);

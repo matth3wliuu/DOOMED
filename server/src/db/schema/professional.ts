@@ -1,14 +1,16 @@
 import { pgTable, serial, text, varchar, date, customType } from 'drizzle-orm/pg-core';
 import { ProfessionalAvailability } from '../../types/common';
 
-const availability = customType<{ data: ProfessionalAvailability, notNull: false, default: false }>({
-  dataType() {
-    return 'integer';
+const availability = customType<{ data: ProfessionalAvailability; notNull: false; default: false }>(
+  {
+    dataType() {
+      return 'integer';
+    },
+    toDriver(value: ProfessionalAvailability) {
+      return value.valueOf();
+    },
   },
-  toDriver(value: ProfessionalAvailability) {
-    return value.valueOf();
-  }
-});
+);
 
 export const professionalAccounts = pgTable('professional_accounts', {
   id: serial('id').primaryKey(),
